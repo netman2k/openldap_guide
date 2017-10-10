@@ -114,8 +114,6 @@ olcDatabase: {X}<typeA>
 >
 > 속성\(Attribute\)와 objectClass에는 대부분 olc라는 prefix가 붙는데 이는 \(OpenLDAP Configuration\)을 나타낸다.
 
-
-
 ### 설정 지시자\(Configuration Directives\)
 
 이 항목에서는 빈번히 사용되는 설정 지시자들을 설명한다. 모든 지시자를 보고자 한다면, slapd-config manual page를 이용하기 바란다.
@@ -191,6 +189,16 @@ olcModuleLoad: {6}memberof.la
 olcModuleLoad: {7}refint.la
 <생략>
 ```
+
+##### olcModuleLoad: &lt;filename&gt;
+
+동적 로딩이 가능한 모듈의 이름을 정의
+
+##### olcModulePath: &lt;pathspec&gt;
+
+모듈이 위치한 디렉토리들을 정의, 일반적으로 디렉토리들은 콜론\(:\)으로 구분한다.
+
+#### cn=schema
 
 
 
