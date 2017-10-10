@@ -230,7 +230,7 @@ olcObjectClasses: ( 1.1.3 NAME 'testObject'
 
 #### 백앤드\(Backend\) 관련 지시자
 
-백앤드 지시자는 같은 타입의 모든 데이터베이스 인스턴스들에 적용된다. 그리고 데이터베이스 지시자에 의해 재정의\(overridden\) 될 수 있다. 백앤드 앤트리들은 반드시 _olcBackendConfig_ objectClass를 포함해야 한다. 
+백앤드 지시자는 같은 타입의 모든 데이터베이스 인스턴스들에 적용된다. 그리고 데이터베이스 지시자에 의해 재정의\(overridden\) 될 수 있다. 백앤드 앤트리들은 반드시 _olcBackendConfig_ objectClass를 포함해야 한다.
 
 ```
 dn: olcBackend=bdb,cn=config
@@ -266,7 +266,7 @@ OpenLDAP 2.4는 다음과 같은 백앤드 타입을 지원한다:
 
 ###### olcDatabase: \[{&lt;index&gt;}\]&lt;type&gt;
 
-이 지시자는 특정 데이터베이스 인스턴스 이름을 정의한다. 
+이 지시자는 특정 데이터베이스 인스턴스 이름을 정의한다.
 
 * {&lt;index&gt;} 숫자는 같은 여러 타입의 데이터베이스를 구별 하기위해 쓰여지며, 일반적으로 생략할 경우, slapd가 자동으로 할당하게된다.
 * &lt;type&gt;은 반드시 표 3.2 에 표시되어있는 지원되는 데이터베이스 타입이나 _frontend_ 타입을 지정해야한다.
@@ -293,7 +293,7 @@ olcRootDN: "cn=Manager,dc=example,dc=com"
 
 ###### olcRootPW: &lt;password&gt;
 
-rootdn의 패스워드를 설정하는데 사용되는 지시자이다. 패스워드는 RFC2307 해시\(hash\) 형태의 패스워드를 사용하거나 plain text 방식을 사용할 수 있다. 
+rootdn의 패스워드를 설정하는데 사용되는 지시자이다. 패스워드는 RFC2307 해시\(hash\) 형태의 패스워드를 사용하거나 plain text 방식을 사용할 수 있다.
 
 > RFC2307 해시 패스워드는 slappasswd 명령을 통하여 생성 가능하다
 >
@@ -365,7 +365,7 @@ olcSyncrepl: rid=<replica ID>
 
 ###### olcTimeLimit: &lt;integer&gt;
 
-이 지시자는 slapd가 검색 후 응답을 해야할 최대 시간\(초\)을 지정하는 데 사용된다. 만일 요청이 해당 시간에 끝나지 않았다면, 결과에 exceeded timelimit 이 반환되게 된다. 
+이 지시자는 slapd가 검색 후 응답을 해야할 최대 시간\(초\)을 지정하는 데 사용된다. 만일 요청이 해당 시간에 끝나지 않았다면, 결과에 exceeded timelimit 이 반환되게 된다.
 
 ```
 olcTimeLimit: 3600
@@ -374,6 +374,30 @@ olcTimeLimit: 3600
 ##### MDB/BDB/HDB 데이터베이스 지시자
 
 다음 지시자들은 MDB, BDB 그리고 HDB에만 적용가능하다.
+
+###### olcDbDirectory: &lt;directory&gt; 
+
+이 지시자는 데이터베이스 및 인덱싱 파일이 위치할 디렉토리를 지정하는데 사용된다.
+
+
+
+###### olcDbCacheSize: &lt;integer&gt;
+
+
+
+###### olcDbCheckpoing: &lt;kbyte&gt; &lt;min&gt;
+
+
+
+###### olcDbNosync: { TRUE \| FALSE }
+
+
+
+###### olcDbIndex: {&lt;attrlist&gt;&gt; \| default} \[pres,eq,approx,sub,none\]
+
+###### olcDbMode: { &lt;octal&gt; \| &lt;symbolic&gt; }
+
+
 
 [^1]: slapd는 독립 서비스\(standalone service\)를 수행할 수 있도록 해주는 데몬 프로그램이다.
 
