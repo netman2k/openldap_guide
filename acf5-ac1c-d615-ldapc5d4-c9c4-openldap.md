@@ -141,7 +141,7 @@ structuralObjectClass: olcGlobal
 
 로그 레벨은 정의된 숫자 혹은 키워드를 통해 설정가능하며,  로그 레벨 조합 \(OR연산 혹은 리스트 형태\) 또한 가능하다. 다음 표는 정의되어져 있는 로그 레벨들을 보여준다.
 
-**\[표 3-1\] 디버깅\(Debuggin\) 로그 레벨**
+**\[표 3.1\] 디버깅\(Debuggin\) 로그 레벨**
 
 | Level | **Keyword** | **Description** |
 | :--- | :--- | :--- |
@@ -200,7 +200,25 @@ olcModuleLoad: {7}refint.la
 
 #### cn=schema
 
-이 엔트리는 slapd에 하드코딩되어진 모든 스키마 정의들을 가지고 있다.  사용자 정의 스키마 경우 이 엔트리 하위에 위치하게 되며, 스키마 엔트리는 반드시 _olcSchemaConfig_ objectClass를 포함해야 한다.
+이 엔트리는 slapd에 하드코딩되어진 모든 스키마 정의들을 가지고 있다.  사용자 정의 스키마 경우 이 엔트리 하위에 위치하게 되며, 스키마 엔트리들은 반드시 _olcSchemaConfig_ objectClass를 포함해야 한다.
+
+```
+dn: cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: schema
+
+dn: cn=test,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: test
+olcAttributeTypes: ( 1.1.1
+  NAME 'testAttr'
+  EQUALITY integerMatch
+  SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 )
+olcAttributeTypes: ( 1.1.2 NAME 'testTwo' EQUALITY caseIgnoreMatch
+  SUBSTR caseIgnoreSubstringsMatch SYNTAX 1.3.6.1.4.1.1466.115.121.1.44 )
+olcObjectClasses: ( 1.1.3 NAME 'testObject'
+  MAY ( testAttr $ testTwo ) AUXILIARY )
+```
 
 ##### olcAttributeTypes: &lt;RFC4512 Attribute Type Description&gt;
 
@@ -210,9 +228,152 @@ olcModuleLoad: {7}refint.la
 
 이 지시자는 object class를 정의한다. 자세한 사항은 스키마 정의서 부분에서 설명한다.
 
+#### 백앤드\(Backend\) 관련 지시자
 
+백앤드 지시자는 같은 타입의 모든 데이터베이스 인스턴스들에 적용된다. 그리고 데이터베이스 지시자에 의해 재정의\(overridden\) 될 수 있다. 백앤드 앤트리들은 반드시 _olcBackendConfig_ objectClass를 포함해야 한다. 
 
+```
+dn: olcBackend=bdb,cn=config
+objectClass: olcBackendConfig
+olcBackend: bdb
+```
 
+OpenLDAP 2.4는 다음과 같은 백앤드 타입을 지원한다:
+
+\[표 3.2\] 지원하는 데이터베이스 백앤드들
+
+| Types | **Description** |
+| :--- | :--- |
+| bdb | Berkeley DB transactional backend \(deprecated\) |
+| config | Slapd configuration backend |
+| dnssrv | DNS SRV backend |
+| hdb | Hierarchical variant of bdb backend \(deprecated\) |
+| ldap | Lightweight Directory Access Protocol \(Proxy\) backend |
+| ldif | Lightweight Data Interchange Format backend |
+| mdb | Memory-Mapped DB backend |
+| meta | Meta Directory backend |
+| monitor | Monitor backend |
+| passwd | Provides read-only access to_passwd_\(5\) |
+| perl | Perl Programmable backend |
+| shell | Shell \(extern program\) backend |
+| sql | SQL Programmable backend |
+
+#### 데이터베이스 관련 지시자
+
+##### 공통 지시자
+
+다음 지시자들은 모든 데이터베이스가 지원한다. 모든 데이터베이스 엔트리들은 반드시 _olcDatabaseConfig_ objectClass를 포함해야한다.
+
+###### olcDatabase: \[{&lt;index&gt;}\]&lt;type&gt;
+
+이 지시자는 특정 데이터베이스 인스턴스 이름을 정의한다. 
+
+* {&lt;index&gt;} 숫자는 같은 여러 타입의 데이터베이스를 구별 하기위해 쓰여지며, 일반적으로 생략할 경우, slapd가 자동으로 할당하게된다.
+* &lt;type&gt;은 반드시 표 3.2 에 표시되어있는 지원되는 데이터베이스 타입이나 _frontend_ 타입을 지정해야한다.
+
+###### olcAccess: to &lt;what&gt; \[ by &lt;who&gt; \[&lt;accesslevel&gt;\] \[&lt;control&gt;\] \]+
+
+이 지시자는 특정 엔트리들 이나 속성들을 요청자들\(requesters\)에게 접근 허락\(grant\)하는데 사용되어진다.  자세한 사항은 Access Control 섹센에서 설명한다.
+
+> 만일 아무런 olcAccess 지시자가 정의되어있지 않을 경우, \* by \* read 가 적용되어진다. 이는 모든 사용자\(익명 포함\)에게 읽기 권한이 주어지는 것이다.
+>
+> frontend에 정의된 접근 제어들은 다른 모든 데이터베이스에 추가되어진다.
+
+###### olcReadonly { TRUE \| FALSE }
+
+읽기만 가능하도록 데이터베이스를 설정한다.
+
+###### olcRootDN: &lt;DN&gt;
+
+접근 제한 혹은 데이터베이스 관리 제한을 받지않는 DN을 지정하는 지시자이다. 단순히 생각하여 관리자 ID로 보면 된다.
+
+```
+olcRootDN: "cn=Manager,dc=example,dc=com"
+```
+
+###### olcRootPW: &lt;password&gt;
+
+rootdn의 패스워드를 설정하는데 사용되는 지시자이다. 패스워드는 RFC2307 해시\(hash\) 형태의 패스워드를 사용하거나 plain text 방식을 사용할 수 있다. 
+
+> RFC2307 해시 패스워드는 slappasswd 명령을 통하여 생성 가능하다
+>
+> ```
+> slappasswd -h {ssha}
+> New password: 
+> Re-enter new password: 
+> {SSHA}Cd8tC8IsGwjdkKPTzMmG9SyPn6evXxOq
+> ```
+
+###### olcSizeLimit: &lt;integer&gt;
+
+이 지시자는 검색시 반환할 최대 엔트리 수를 정의한다.
+
+```
+olcSizeLimit: 500
+```
+
+###### olcSuffix: &lt;dn suffix&gt;
+
+이 지시자는 백앤드 데이터베이스에 전달될 LDAP 쿼리의 DN suffix를 지정한다.
+
+아래 예제의 경우 쿼리는 DN 끝에 "dc=example,dc=com"을 백앤드에 전달하게 된다.
+
+```
+olcSuffix: "dc=example,dc=com"
+```
+
+###### olcSyncrepl
+
+이 지시자는 provider parameter에 명시된 마스터 서버로부터 컨텐츠를 복재해올 수 있도록 설정하는데 사용된다.
+
+자세한 사항은 Replication 섹션에서 다루도록 한다.
+
+```
+olcSyncrepl: rid=<replica ID>
+        provider=ldap[s]://<hostname>[:port]
+        [type=refreshOnly|refreshAndPersist]
+        [interval=dd:hh:mm:ss]
+        [retry=[<retry interval> <# of retries>]+]
+        searchbase=<base DN>
+        [filter=<filter str>]
+        [scope=sub|one|base]
+        [attrs=<attr list>]
+        [attrsonly]
+        [sizelimit=<limit>]
+        [timelimit=<limit>]
+        [schemachecking=on|off]
+        [bindmethod=simple|sasl]
+        [binddn=<DN>]
+        [saslmech=<mech>]
+        [authcid=<identity>]
+        [authzid=<identity>]
+        [credentials=<passwd>]
+        [realm=<realm>]
+        [secprops=<properties>]
+        [starttls=yes|critical]
+        [tls_cert=<file>]
+        [tls_key=<file>]
+        [tls_cacert=<file>]
+        [tls_cacertdir=<path>]
+        [tls_reqcert=never|allow|try|demand]
+        [tls_cipher_suite=<ciphers>]
+        [tls_crlcheck=none|peer|all]
+        [logbase=<base DN>]
+        [logfilter=<filter str>]
+        [syncdata=default|accesslog|changelog]
+```
+
+###### olcTimeLimit: &lt;integer&gt;
+
+이 지시자는 slapd가 검색 후 응답을 해야할 최대 시간\(초\)을 지정하는 데 사용된다. 만일 요청이 해당 시간에 끝나지 않았다면, 결과에 exceeded timelimit 이 반환되게 된다. 
+
+```
+olcTimeLimit: 3600
+```
+
+##### MDB/BDB/HDB 데이터베이스 지시자
+
+다음 지시자들은 MDB, BDB 그리고 HDB에만 적용가능하다.
 
 [^1]: slapd는 독립 서비스\(standalone service\)를 수행할 수 있도록 해주는 데몬 프로그램이다.
 
