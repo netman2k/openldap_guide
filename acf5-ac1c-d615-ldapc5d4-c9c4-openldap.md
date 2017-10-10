@@ -1,4 +1,4 @@
-# 3. 공개형 LDAP엔진 OpenLDAP {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
+# 3. OpenLDAP 기본 {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
 
 ## OpenLDAP에 대한 간단한 소개 {#LDAP의모든것2-OpenLDAP에대한간단한소개}
 
@@ -6,7 +6,7 @@ OpenLDAP는 LDAP의 전신이라고 할수 있는 Umich\(미시건대학\) LDAP 
 
 현재 OpenLDAP는 2.4.x 버전의 안정버전을 내놓고 있다. 1.2.x버전의 경우 LDAP v2 표준을 지원하는 반면 2.x 버전은 LDAP v3 표준을 기반으로 만들어졌다.
 
-## LDAPv2 와 LDAPv3의 차이점 {#LDAP의모든것2-LDAPv2와LDAPv3의차이점}
+## LDAPv2 와 LDAPv3의 차이점 {#ldapv2와ldapv3의차이점}
 
 LDAPv3는 LDAP 2를 대체하기 위해 1990에 개발되었으며 다음과 같은 기능들이 추가되었다:
 
@@ -17,7 +17,7 @@ LDAPv3는 LDAP 2를 대체하기 위해 1990에 개발되었으며 다음과 같
 * Schema Discovery
 * 확장성 \(controls, extended operations, and more\)
 
-## OpenLDAP 설치
+## OpenLDAP 설치 {#openldap설치}
 
 본 가이드는 CentOS 7.X 를 기본 OS로 사용하며, 기본적으로 제공하는 OpenLDAP 패키지를 사용할 것이다. 만일 다른 OS 플랫폼을 사용하거나 본 가이드와 맞지 않는 경우, 공식 관리자 가이드의 [4. Building and Installing OpenLDAP Software](http://www.openldap.org/doc/admin24/install.html) 참고하도록 한다.
 
@@ -38,7 +38,7 @@ openldap-servers-2.4.40-13.el7.x86_64
 openldap-devel-2.4.40-13.el7.x86_64
 ```
 
-## slapd 설정
+## slapd 설정 {#configuratio}
 
 OpenLDAP 패키지를 설치를 완료하게되면, slapd[^1]를 설정할 수 있는 준비 상태가 되어진다.
 
@@ -407,7 +407,7 @@ olcDbCachesize: 1000
 
 ###### olcDbCheckpoing: &lt;kbyte&gt; &lt;min&gt;
 
-얼마나 자주 트랜젝션 로그를 디스크에 쓸것인지를 지정하는데 사용된다. 
+얼마나 자주 트랜젝션 로그를 디스크에 쓸것인지를 지정하는데 사용된다.
 
 예를 들어 다음 설정은 1024 kbyte가 쓰여지거나 10분이 지났을 때 Checkpoint가 발생되도록 하는 설정이다.
 
