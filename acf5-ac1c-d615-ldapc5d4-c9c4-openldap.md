@@ -38,9 +38,13 @@ openldap-servers-2.4.40-13.el7.x86_64
 openldap-devel-2.4.40-13.el7.x86_64
 ```
 
-# OpenLDAP 설정
+# slapd 설정
 
-CentOS 7 에서 제공하는 패키지를 통하여 설치하였을 경우, 다음과 같은 디렉토리에
+OpenLDAP 패키지를 설치를 완료하게되면, slapd[^1]를 설정할 수 있는 준비 상태가 되어진다.
 
+OpenLDAP 2.3 이후 버전에서는 기본적으로 이전 버전까지 사용된 정적 설정 파일[^2]을 통한 설정이 아닌, 동적 런타임 설정 엔진\(Dynamic runtime configuration engine\)을 사용하도록 되어져있다.
 
+[^1]: slapd는 독립 서비스\(standalone service\)를 수행할 수 있도록 해주는 데몬 프로그램이다.
+
+[^2]: 기존 버전은 slapd.conf 파일 수정을 통하여 시스템 설정을 진행하였음. 만일 설정이 변경될 경우 데몬 프로그램의 재시작이 필수 불가결이었다.
 
