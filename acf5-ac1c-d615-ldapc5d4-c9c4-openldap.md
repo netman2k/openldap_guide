@@ -19,7 +19,7 @@ LDAPv3는 LDAP 2를 대체하기 위해 1990에 개발되었으며 다음과 같
 
 # OpenLDAP 설치
 
-본 가이드는 CentOS 7.X 환경하에 Yum 커맨드를 통하여 설치하는 방법만 제시한다. 만일 자세한 사항이 필요한 경우 공식 관리자 가이드의 [4. Building and Installing OpenLDAP Software](http://www.openldap.org/doc/admin24/install.html) 참고하도록 한다.
+본 가이드는 CentOS 7.X 를 기본 OS로 사용하며, 기본적으로 제공하는 OpenLDAP 패키지를 사용할 것이다. 만일 다른 OS 플랫폼을 사용하거나 본 가이드와 맞지 않는 경우, 공식 관리자 가이드의 [4. Building and Installing OpenLDAP Software](http://www.openldap.org/doc/admin24/install.html) 참고하도록 한다.
 
 ```
 # yum install openldap-servers
@@ -37,6 +37,10 @@ openldap-clients-2.4.40-13.el7.x86_64
 openldap-servers-2.4.40-13.el7.x86_64
 openldap-devel-2.4.40-13.el7.x86_64
 ```
+
+# OpenLDAP 설정
+
+CentOS 7 에서 제공하는 패키지를 통하여 설치하였을 경우, 다음과 같은 디렉토리에
 
 
 
