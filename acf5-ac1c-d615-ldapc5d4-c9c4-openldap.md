@@ -172,7 +172,7 @@ olcLogLevel acl trace
 
 #### cn=module
 
-이 엔트리는 동적으로  모듈을 올리고자 할 때 사용되며, 반드시 olcModuleList objectClass 포함 하여야 한다.
+이 엔트리는 동적으로  모듈을 올리고자 할 때 사용되며, 반드시 _olcModuleList_ objectClass 포함 하여야 한다.
 
 ```
 dn: cn=module{0},cn=config
@@ -199,6 +199,18 @@ olcModuleLoad: {7}refint.la
 모듈이 위치한 디렉토리들을 정의, 일반적으로 디렉토리들은 콜론\(:\)으로 구분한다.
 
 #### cn=schema
+
+이 엔트리는 slapd에 하드코딩되어진 모든 스키마 정의들을 가지고 있다.  사용자 정의 스키마 경우 이 엔트리 하위에 위치하게 되며, 스키마 엔트리는 반드시 _olcSchemaConfig_ objectClass를 포함해야 한다.
+
+##### olcAttributeTypes: &lt;RFC4512 Attribute Type Description&gt;
+
+이 지시자는 속성 타입을 정의한다. 자세한 사항은 스키마 정의서 부분에서 설명한다.
+
+##### olcObjectClasses: &lt;RFC4512 Object Class Description&gt;
+
+이 지시자는 object class를 정의한다. 자세한 사항은 스키마 정의서 부분에서 설명한다.
+
+
 
 
 
