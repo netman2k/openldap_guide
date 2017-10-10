@@ -1,4 +1,4 @@
-# 3. OpenLDAP 기본 {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
+# 3. OpenLDAP에 대한 이해 {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
 
 ## OpenLDAP에 대한 간단한 소개 {#LDAP의모든것2-OpenLDAP에대한간단한소개}
 
