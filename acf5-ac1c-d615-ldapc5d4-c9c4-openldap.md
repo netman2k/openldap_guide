@@ -56,11 +56,143 @@ slapd 설정은 미리 정의된 스키마\(schema\)와 DIT를 통해 특수한 
 
 ## ![](/assets/config_dit.png)
 
-**\[그림 3.1\] 설정 트리 예**[^4]
+**\[그림 3.1\] 설정 트리 예**
+
+그림 3.1은 이들의 예를 보여주는데, 일부 요소들은 이해도를 높이기 위해 생략되어져 있다.
+
+slapd-config 설정 트리는 매우 특수한 구조를 가진다. 루트\(root\) 트리는 cn=config 이며, 전역 설정을 포함하고 있다. 추가적인 설정은 별도의 자식\(child\) 엔트리에 포함되어진다.
+
+* 동적으로 불려진 모듈들
+* 스키마 정의들
+  * cn=schema,cn=config 엔트리는 slapd에 하드코딩된 스키마를 포함한다
+  * 자식 엔트리들은 설정 파일 및 운영 시 추가된 스키마들을 포함한다 
+* 백앤드 관련 설정
+* 데이터베이스 관련 설정
+  * 오버레이\(Overlay\)들은 데이터베이스 하위에 정의된다
+  * 데이터베이스와 오버레이들은 기타 다른 자식들을 가질 수 있다
+
+다음은 일반적인 설정  LDIF 를 보여준다:
+
+```
+# global configuration settings
+dn: cn=config
+objectClass: olcGlobal
+cn: config
+<global config settings>
+
+# schema definitions
+dn: cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: schema
+<system schema>
+
+dn: cn={X}core,cn=schema,cn=config
+objectClass: olcSchemaConfig
+cn: {X}core
+<core schema>
+
+# additional user-specified schema
+...
+
+# backend definitions
+dn: olcBackend=<typeA>,cn=config
+objectClass: olcBackendConfig
+olcBackend: <typeA>
+<backend-specific settings>
+
+# database definitions
+dn: olcDatabase={X}<typeA>,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: {X}<typeA>
+<database-specific settings>
+
+# subsequent definitions and settings
+...
+```
+
+> 위 코드 중 이름에 {X}가 포함될 경우 순서를 나타내는데 이를 Numeric index라 불린다. 일반적으로 LDAP 데이터베이스는 비 순차적\(unordered\)이나, 이 Numberic Index를 사용할 경우 강제로 설정에 순서를 정의하게한다. 따라서 이로인해 각 설정간 순번 의존성을 걸 수 있게 되는 것이다. 하지만 이 순서는 자동적으로 생성되기 때문에 LDIF에 굳이 순번을 넣어 작성할 필요는 없다.
+>
+> 속성\(Attribute\)와 objectClass에는 대부분 olc라는 prefix가 붙는데 이는 \(OpenLDAP Configuration\)을 나타낸다.
 
 
 
-그림 3.1은 이들의 예를 보여주는데, 여기에는 이해도를 높이기 위해 특성 요소들은 생략하였다.
+### 설정 지시자\(Configuration Directives\)
+
+이 항목에서는 빈번히 사용되는 설정 지시자들을 설명한다. 모든 지시자를 보고자 한다면, slapd-config manual page를 이용하기 바란다.
+
+#### cn=config
+
+이 엔트리에 저장된 지시자들은 서버 전체에 영향을 미친다. 대부분은 시스템 혹은 연결과 관련되며, 데이터베이스와는 연관이 없다. 또한 이 엔트리는 반드시 _olcGlobal_ objectClass를 포함해야한다.
+
+```
+dn: cn=config
+objectClass: olcGlobal
+cn: config
+olcArgsFile: /var/run/openldap/slapd.args
+olcPidFile: /var/run/openldap/slapd.pid
+olcTLSCACertificatePath: /etc/openldap/certs
+structuralObjectClass: olcGlobal
+<생략>
+```
+
+##### olcIdleTimeout: &lt;integer&gt;
+
+유휴\(idle\) 클라이언트의 연결을 강제적으로 끊기 전 기다리는 시간\(초\)을 정의, 기본값은 0이며, 이는 이 기능의 해제를 의미한다.
+
+##### olcLogLevel: &lt;level&gt;
+
+로그 레벨은 정의된 숫자 혹은 키워드를 통해 설정가능하며,  로그 레벨 조합 \(OR연산 혹은 리스트 형태\) 또한 가능하다. 다음 표는 정의되어져 있는 로그 레벨들을 보여준다.
+
+**\[표 3-1\] 디버깅\(Debuggin\) 로그 레벨**
+
+| Level | **Keyword** | **Description** |
+| :--- | :--- | :--- |
+| -1 | any | enable all debugging |
+| 0 |  | no debugging |
+| 1 | \(0x1 trace\) | trace function calls |
+| 2 | \(0x2 packets\) | debug packet handling |
+| 4 | \(0x4 args\) | heavy trace debugging |
+| 8 | \(0x8 conns\) | connection management |
+| 16 | \(0x10 BER\) | print out packets sent and received |
+| 32 | \(0x20 filter\) | search filter processing |
+| 64 | \(0x40 config\) | configuration processing |
+| 128 | \(0x80 ACL\) | access control list processing |
+| 256 | \(0x100 stats\) | stats log connections/operations/results |
+| 512 | \(0x200 stats2\) | stats log entries sent |
+| 1024 | \(0x400 shell\) | print communication with shell backends |
+| 2048 | \(0x800 parse\) | print entry parsing debugging |
+| 16384 | \(0x4000 sync\) | syncrepl consumer processing |
+| 32768 | \(0x8000 none\) | only messages that get logged whatever log level is set |
+
+```
+olcLogLevel 129
+olcLogLevel 0x81
+olcLogLevel 128 1
+olcLogLevel 0x80 0x1
+olcLogLevel acl trace
+```
+
+#### cn=module
+
+이 엔트리는 동적으로  모듈을 올리고자 할 때 사용되며, 반드시 olcModuleList objectClass 포함 하여야 한다.
+
+```
+dn: cn=module{0},cn=config
+objectClass: olcModuleList
+cn: module
+cn: module{0}
+olcModuleLoad: {0}pw-sha2.la
+olcModuleLoad: {1}auditlog.la
+olcModuleLoad: {2}syncprov.la
+olcModuleLoad: {3}accesslog.la
+olcModuleLoad: {4}rwm.la
+olcModuleLoad: {5}back_relay.la
+olcModuleLoad: {6}memberof.la
+olcModuleLoad: {7}refint.la
+<생략>
+```
+
+
 
 [^1]: slapd는 독립 서비스\(standalone service\)를 수행할 수 있도록 해주는 데몬 프로그램이다.
 
