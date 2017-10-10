@@ -114,6 +114,20 @@ olcDatabase: {X}<typeA>
 >
 > 속성\(Attribute\)와 objectClass에는 대부분 olc라는 prefix가 붙는데 이는 \(OpenLDAP Configuration\)을 나타낸다.
 
+### 정적 설정 파일의 변환 처리
+
+만약 기존에 사용되던 설정을 동적 설정 방식으로 변경하고자 한다면 다음 명령을 사용하여 변환가능하다
+
+```
+slaptest -f /usr/local/etc/openldap/slapd.conf -F /usr/local/etc/openldap/slapd.d
+```
+
+변환이 완료되었다면 다음 명령으로 설정된 rootdn과 rootpw로 cn=config가 접근 가능한지 테스트를 하도록 한다.
+
+```
+ldapsearch -x -D cn=config -w VerySecret -b cn=config
+```
+
 ### 설정 지시자\(Configuration Directives\)
 
 이 항목에서는 빈번히 사용되는 설정 지시자들을 설명한다. 모든 지시자를 보고자 한다면, slapd-config manual page를 이용하기 바란다.
@@ -266,14 +280,14 @@ OpenLDAP 2.4는 다음과 같은 백앤드 타입을 지원한다:
 
 ###### olcDatabase: \[{&lt;index&gt;}\]&lt;type&gt;
 
-이 지시자는 특정 데이터베이스 인스턴스 이름을 정의한다.
+특정 데이터베이스 인스턴스 이름을 정의한다.
 
 * {&lt;index&gt;} 숫자는 같은 여러 타입의 데이터베이스를 구별 하기위해 쓰여지며, 일반적으로 생략할 경우, slapd가 자동으로 할당하게된다.
 * &lt;type&gt;은 반드시 표 3.2 에 표시되어있는 지원되는 데이터베이스 타입이나 _frontend_ 타입을 지정해야한다.
 
 ###### olcAccess: to &lt;what&gt; \[ by &lt;who&gt; \[&lt;accesslevel&gt;\] \[&lt;control&gt;\] \]+
 
-이 지시자는 특정 엔트리들 이나 속성들을 요청자들\(requesters\)에게 접근 허락\(grant\)하는데 사용되어진다.  자세한 사항은 Access Control 섹센에서 설명한다.
+특정 엔트리들 이나 속성들을 요청자들\(requesters\)에게 접근 허락\(grant\)하는데 사용되어진다.  자세한 사항은 Access Control 섹센에서 설명한다.
 
 > 만일 아무런 olcAccess 지시자가 정의되어있지 않을 경우, \* by \* read 가 적용되어진다. 이는 모든 사용자\(익명 포함\)에게 읽기 권한이 주어지는 것이다.
 >
@@ -306,7 +320,7 @@ rootdn의 패스워드를 설정하는데 사용되는 지시자이다. 패스�
 
 ###### olcSizeLimit: &lt;integer&gt;
 
-이 지시자는 검색시 반환할 최대 엔트리 수를 정의한다.
+검색시 반환할 최대 엔트리 수를 정의한다.
 
 ```
 olcSizeLimit: 500
@@ -314,7 +328,7 @@ olcSizeLimit: 500
 
 ###### olcSuffix: &lt;dn suffix&gt;
 
-이 지시자는 백앤드 데이터베이스에 전달될 LDAP 쿼리의 DN suffix를 지정한다.
+백앤드 데이터베이스에 전달될 LDAP 쿼리의 DN suffix를 지정한다.
 
 아래 예제의 경우 쿼리는 DN 끝에 "dc=example,dc=com"을 백앤드에 전달하게 된다.
 
@@ -324,7 +338,7 @@ olcSuffix: "dc=example,dc=com"
 
 ###### olcSyncrepl
 
-이 지시자는 provider parameter에 명시된 마스터 서버로부터 컨텐츠를 복재해올 수 있도록 설정하는데 사용된다.
+provider parameter에 명시된 마스터 서버로부터 컨텐츠를 복재해올 수 있도록 설정하는데 사용된다.
 
 자세한 사항은 Replication 섹션에서 다루도록 한다.
 
@@ -365,7 +379,7 @@ olcSyncrepl: rid=<replica ID>
 
 ###### olcTimeLimit: &lt;integer&gt;
 
-이 지시자는 slapd가 검색 후 응답을 해야할 최대 시간\(초\)을 지정하는 데 사용된다. 만일 요청이 해당 시간에 끝나지 않았다면, 결과에 exceeded timelimit 이 반환되게 된다.
+slapd가 검색 후 응답을 해야할 최대 시간\(초\)을 지정하는 데 사용된다. 만일 요청이 해당 시간에 끝나지 않았다면, 결과에 exceeded timelimit 이 반환되게 된다.
 
 ```
 olcTimeLimit: 3600
@@ -375,29 +389,46 @@ olcTimeLimit: 3600
 
 다음 지시자들은 MDB, BDB 그리고 HDB에만 적용가능하다.
 
-###### olcDbDirectory: &lt;directory&gt; 
+###### olcDbDirectory: &lt;directory&gt;
 
-이 지시자는 데이터베이스 및 인덱싱 파일이 위치할 디렉토리를 지정하는데 사용된다.
+데이터베이스 및 인덱싱 파일이 위치할 디렉토리를 지정하는데 사용된다.
 
-
+```
+olcDbDirectory: /var/lib/ldap
+```
 
 ###### olcDbCacheSize: &lt;integer&gt;
 
+해당 백앤드 타입의 데이터베이스 인스턴스가 관리하는 인메모리 케시의 엔트리 수를 지정하는데 사용된다.
 
+```
+olcDbCachesize: 1000
+```
 
 ###### olcDbCheckpoing: &lt;kbyte&gt; &lt;min&gt;
 
+얼마나 자주 트랜젝션 로그를 디스크에 쓸것인지를 지정하는데 사용된다. 
 
+예를 들어 다음 설정은 1024 kbyte가 쓰여지거나 10분이 지났을 때 Checkpoint가 발생되도록 하는 설정이다.
 
-###### olcDbNosync: { TRUE \| FALSE }
-
-
+```
+olcDbCheckpoint: 1024 10
+```
 
 ###### olcDbIndex: {&lt;attrlist&gt;&gt; \| default} \[pres,eq,approx,sub,none\]
 
-###### olcDbMode: { &lt;octal&gt; \| &lt;symbolic&gt; }
+어떠한 속성을 인덱싱 할 것인지에 대한 설정으로, 만약 &lt;attrlist&gt; 만 정의될 경우 디폴트 인덱스들만이 관리되어진다. 아래 예의 경우 pres\(ent\), eq\(uality\).
 
+```
+olcDbIndex: default pres,eq
+olcDbIndex: uid
+olcDbIndex: cn,sn pres,eq,sub
+olcDbIndex: objectClass eq
+```
 
+> sub: substring
+
+###### 
 
 [^1]: slapd는 독립 서비스\(standalone service\)를 수행할 수 있도록 해주는 데몬 프로그램이다.
 
