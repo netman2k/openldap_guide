@@ -4,7 +4,7 @@
 
 * 원자료 URL : [Tutorials](http://database.sarang.net/?criteria=ldap&subcrit=tutorials )
 
-
+## 테스트 환경
 
 이 문서에 포함된 모든 코드는 다음 환경에서 테스트 및 작성 되었습니다.
 
@@ -13,7 +13,7 @@
   * openldap-2.4.40-13.el7.x86\_64
   * openldap-clients-2.4.40-13.el7.x86\_64
 
-# 변경 내역
+## 변경 내역
 
 * 2017.10.10 -  신규 OpenLDAP 버전\(2.4.40\)에 맞도록 일부 내용 수정
 
