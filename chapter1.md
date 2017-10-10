@@ -1,4 +1,4 @@
-# LDAP란 무엇인가?
+# 2. LDAP란 무엇인가?
 
 ## Directory Service와 Lightweight Directory Access Protocol\(LDAP\)
 
@@ -33,13 +33,11 @@ LDAP란 무엇일까? Lightweight Directory Access Protocol이라는 말인데 �
 
 위의 표는 하나의 엔트리를 나타낸 예이다. 하나의 엔트리는 마치 RDBMS의 필드처럼 _attribute\(속성\)_들을 가지고 이러한 attribute의 값들은 RDBMS의 하나의 필드값과는 다르게 하나 이상의 값을 가질수가 있다. 위이 예에서 _cn_이란 _common name_을, _sn_은 _sirname_을 각각 대표한다. _organization unit_을 _ou_라고 쓰는 것 처럼 왜 그러면 이렇게 줄여서 사용하는 것일까? 이유는 _ou\(organization unit\), o\(organization\), c\(country\), cn\(common name\)_과 같이 dn에 쓰이는 attribute들은 보다 간결한 dn을 위해서 축약이 될 필요가 있어서 이다.
 
-한가지 설명에서 빠진 것이 있는데 바로 objectclass이다. 모든 엔트리는 한가지 이상의 obejctclass에 속하게 되며 objectclass의 정의대로 attribute를 가지게 된다. 쉽게 비유를 하자면 objectclass란 붕어빵을 찍어내는 붕어빵 틀과 같다고 할 수가 있겠다. 붕어빵틀에 생긴대로 붕어빵이 나오듯이 우리가 objectclass를 정의한대로 엔트리가 생성되는 것이다. 이러한 objectclass에 대해서 좀더 자세한 이해를 하여야 할 필요가 있는데 지금 당장 알고 싶은 분은 'LDAP 스키마 작성'섹션을 지금 읽어보아도 좋다. 
+한가지 설명에서 빠진 것이 있는데 바로 objectclass이다. 모든 엔트리는 한가지 이상의 obejctclass에 속하게 되며 objectclass의 정의대로 attribute를 가지게 된다. 쉽게 비유를 하자면 objectclass란 붕어빵을 찍어내는 붕어빵 틀과 같다고 할 수가 있겠다. 붕어빵틀에 생긴대로 붕어빵이 나오듯이 우리가 objectclass를 정의한대로 엔트리가 생성되는 것이다. 이러한 objectclass에 대해서 좀더 자세한 이해를 하여야 할 필요가 있는데 지금 당장 알고 싶은 분은 'LDAP 스키마 작성'섹션을 지금 읽어보아도 좋다.
 
 다음 그림은 전형적인 LDAP의 구조를 엔트리 내용을 좀더 자세히 해서 보여주는 예이다.
 
 ![](/assets/image003.jpg)
 
 **\[그림 3\] 좀더 자세히 그린 엔트리와 LDAP디렉토리 구조**
-
-
 

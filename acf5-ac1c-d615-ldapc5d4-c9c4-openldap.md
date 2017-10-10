@@ -1,4 +1,4 @@
-# 공개형 LDAP엔진 OpenLDAP {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
+# 3. 공개형 LDAP엔진 OpenLDAP {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
 
 ## OpenLDAP에 대한 간단한 소개 {#LDAP의모든것2-OpenLDAP에대한간단한소개}
 
@@ -17,7 +17,7 @@ LDAPv3는 LDAP 2를 대체하기 위해 1990에 개발되었으며 다음과 같
 * Schema Discovery
 * 확장성 \(controls, extended operations, and more\)
 
-# OpenLDAP 설치
+## OpenLDAP 설치
 
 본 가이드는 CentOS 7.X 를 기본 OS로 사용하며, 기본적으로 제공하는 OpenLDAP 패키지를 사용할 것이다. 만일 다른 OS 플랫폼을 사용하거나 본 가이드와 맞지 않는 경우, 공식 관리자 가이드의 [4. Building and Installing OpenLDAP Software](http://www.openldap.org/doc/admin24/install.html) 참고하도록 한다.
 
@@ -38,21 +38,19 @@ openldap-servers-2.4.40-13.el7.x86_64
 openldap-devel-2.4.40-13.el7.x86_64
 ```
 
-# slapd 설정
+## slapd 설정
 
 OpenLDAP 패키지를 설치를 완료하게되면, slapd[^1]를 설정할 수 있는 준비 상태가 되어진다.
 
 OpenLDAP 2.3 이후 버전에서는 기본적으로 이전 버전까지 사용된 정적 설정 파일[^2]을 통한 설정이 아닌, 동적 런타임 설정 엔진\(Dynamic runtime configuration engine\)을 사용하도록 되어져있다.
 
-## 설정 구조\(Configuration Layout\)
+### 설정 구조\(Configuration Layout\)
 
 slapd 설정은 미리 정의된 스키마\(schema\)와 DIT를 통해 특수한 LDAP 디렉터리에 저장이 되도록 되어있다. 또한 전역\(global\) 설정 옵션, 스키마 정의, 백앤드와 데이터베이스 정의 그리고 이와 연관되어지는 다른 아이템들을 지니기 위해 특정 objectClass가 사용되어진다.
 
-## ![](/assets/config_dit.png) 
+## ![](/assets/config_dit.png)
 
 **\[그림 4\] 설정 트리 예**
-
-
 
 [^1]: slapd는 독립 서비스\(standalone service\)를 수행할 수 있도록 해주는 데몬 프로그램이다.
 
