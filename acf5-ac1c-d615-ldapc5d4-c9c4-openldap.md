@@ -44,6 +44,12 @@ OpenLDAP 패키지를 설치를 완료하게되면, slapd[^1]를 설정할 수 �
 
 OpenLDAP 2.3 이후 버전에서는 기본적으로 이전 버전까지 사용된 정적 설정 파일[^2]을 통한 설정이 아닌, 동적 런타임 설정 엔진\(Dynamic runtime configuration engine\) - slapd-config[^3] 을 사용하도록 되어져있다.
 
+slapd-config는 다음과 같은 특징을 가진다:
+
+* 표준 LDAP 동작들\(operations\)을 통하여 관리
+* 설정 데이터를 LDIF 데이터베이스에 저장, 일반적으로 /etc/openldap/slapd.d 혹은 /usr/local/etc/openldap/slapd.d 디렉토리에 위치
+* 서비스 재시작 없이, 즉시\(On the fly\) 설정 변경을 가능케 함
+
 ### 설정 구조\(Configuration Layout\)
 
 slapd 설정은 미리 정의된 스키마\(schema\)와 DIT를 통해 특수한 LDAP 디렉터리에 저장이 되도록 되어있다. 또한 전역\(global\) 설정 옵션, 스키마 정의, 백앤드와 데이터베이스 정의 그리고 이와 연관되어지는 다른 아이템들을 지니기 위해 특정 objectClass가 사용되어진다.
@@ -53,8 +59,6 @@ slapd 설정은 미리 정의된 스키마\(schema\)와 DIT를 통해 특수한 
 **\[그림 3.1\] 설정 트리 예**
 
 그림 3.1은 이들의 예를 보여주는데, 여기에는 이해도를 높이기 위해 특성 요소들은 생략하였다.
-
-
 
 [^1]: slapd는 독립 서비스\(standalone service\)를 수행할 수 있도록 해주는 데몬 프로그램이다.
 
