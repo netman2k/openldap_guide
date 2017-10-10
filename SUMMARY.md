@@ -1,5 +1,5 @@
 # Summary
 
 * [문서 소개](README.md)
-* [First Chapter](chapter1.md)
+* [LDAP란 무엇인가?](chapter1.md)
 

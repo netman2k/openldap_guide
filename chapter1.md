@@ -1,3 +1,27 @@
-# First Chapter
+# LDAP란 무엇인가?
 
-GitBook allows you to organize your book into chapters, each chapter is stored in a separate file like this one.
+## Directory Service와 Lightweight Directory Access Protocol\(LDAP\)
+
+ LDAP란 무엇일까? Lightweight Directory Access Protocol이라는 말인데 우리말로 하면 '경량의 디렉토리 액세스 프로토콜'이라는 말이 된다. 그럼 디렉토리\(Directory\)란 무엇일까? 디렉토리란 특별한 형태의 데이터베이스라고 할 수가 있다. 그리고 쓰기 작업보다 읽기 작업이 더 많을 뿐 아니라 어떤 것을 찾는 작업이 많은 곳에 더더욱 적합한 서비스라고 할 수가 있다.
+
+ 현재로부터 시간을 조금 거슬러 올라가서 1980년대 말에 특정분야의 디렉토리 서비스의 이용,개발 요구가 높아감에 따라 CCITT\(International Telegraph and Telephone Consultative Committee, 현재 ITU\)와 ISO\(International Organization for Standardization\) 두 단체가 함께 X.500이라는 디렉토리 서비스 표준을 만들기 시작하였다. 결국 1990년에 CCITT가 표준을 발표했고 1993년, 1997년 몇번의 수정작업을 거쳐 현재에 이르렀다. 이 X.500은 최초의 일반적인 목적의 디렉토리 시스템이었고 다양한 쿼리를 사용하는 강력한 검색기능을 제공하였을 뿐만 아니라 서버와 데이터의 분산이 용이했고 그리고 무엇보다도 특정 운영체제나 특정 네트웍,특정 응용프로그램에 구애받지 않고 사용될 수 있는 표준이라는 점이 눈길을 끌 수 있었다.
+
+ 하지만 X.500 개발자들은 DAP\(X.500의 directory client access protocol\)가 너무 방대한데다 복잡하고 구현하기 어렵다는 점 때문에 그당시의 일반 PC급에서는 적용해서 사용하기가 힘들다는걸 알았고 이의 해결책을 모색하기 시작했고 그렇게 해서 나온 것이 LDAP이다. LDAP는 DAP의 기능을 거의 다 지원을 했고 복잡했던 부분이나 잘 쓰이지 않았던 부분은 단순화하거나 없애버렸다. 그리고 대부분의 데이터 형식에 있어서 단순한 문자열을 사용하므로써 구현을 단순화하고 퍼포먼스를 늘릴수가 있었다. 이렇게 LDAP는 처음에 X.500 디렉토리 서비스의 프론트엔드로 사용되었다. 그후 최초이면서 많이 알려진 미시건대학의 LDAP\(U-M LDAP\)가 나오게되었고 현재 많은 상용 또는 오픈소스의 LDAP제품들이 나와있다.
+
+
+
+## LDAP 들여다 보기 {#LDAP의모든것2-LDAP들여다보기}
+
+![](/assets/image001.jpg)
+
+**\[그림 1\] 파일 시스템에서의 간단한 디렉토리의 구조의 예**
+
+![](/assets/image002.jpg)
+
+**\[그림 2\] LDAP에서의 간단한 디렉토리의 구조의 예**
+
+
+
+  
+
+
