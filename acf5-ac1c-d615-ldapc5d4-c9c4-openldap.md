@@ -1,3 +1,5 @@
+#  {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
+
 # 3. OpenLDAP에 대한 이해 {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
 
 ## OpenLDAP에 대한 간단한 소개 {#LDAP의모든것2-OpenLDAP에대한간단한소개}
@@ -440,7 +442,8 @@ olcDbIndex: objectClass eq
 접근제어를 통해 우리는 마치 파일시스템의 파일과 디렉토리에 소유자와 권한을 설정해 주는 것과 같이, OpenLDAP은 접근제어를 통하여 각각의 엔트리\(Entry\)나 속성\(Attribute\)에 접근 권한을 설정할 수 있다. 다음은 접근 정의서\(Access specification\)에서는 각 Access 라인에 대한 일반적 형식을 보여준다.
 
 ```
-    <access directive> ::= access to <what>
+    olcAccess: <access directive>
+    <access directive> ::= to <what>
         [by <who> [<access>] [<control>] ]+
     <what> ::= * |
         [dn[.<basic-style>]=<regex> | dn.<scope-style>=<DN>]
@@ -564,26 +567,26 @@ to dn.one="ou=people,o=suffix" filter=(objectClass=person)
 다양한 예제를 통하여 접근 제어를 확인해보자
 
 ```
-access to * by * read
+olcAccess: to * by * read
 ```
 
-위 접근 지시자는 모든 사용자에게 읽기 권한을 주는 예이다. 
+위 접근 지시자는 모든 사용자에게 읽기 권한을 주는 예이다.
 
 ```
-access to *
-    by self write
-    by anonymous auth
-    by * read
+olcAccess: to *
+   by self write
+   by anonymous auth
+   by * read
 ```
 
 위의 경우 자신의 엔트리는 수정할 수 있으며, 익명 사용자경우 엔트리들에 대해 인증을 강제화하고 그외에는 읽을 수 있는 권한을 주는 예이다.
 
 ```
-access to dn.subtree="dc=example,dc=com" attrs=homePhone
+olcAccess: to dn.subtree="dc=example,dc=com" attrs=homePhone
     by self write
-    by dn.children="dc=example,dc=com" search
+    by dn.children=dc=example,dc=com" search
     by peername.regex=IP=10\..+ read
-access to dn.subtree="dc=example,dc=com"
+olcAccess: to dn.subtree="dc=example,dc=com"
     by self write
     by dn.children="dc=example,dc=com" search
     by anonymous auth
@@ -606,6 +609,4 @@ systemctl start slapd
 ```
 
 테스트 시 위 스크립트를 실행하여 콘솔을 통하여 접근제어가 어떻게 진행되어지는지 확인이 가능하다.
-
-
 
