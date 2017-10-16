@@ -481,8 +481,6 @@ olcDbIndex: objectClass eq
 * 두번째 라인: 정규표현식을 통하여 DN 지정
 * 세번째 라인: 범위 지정을 통한 DN 지정
 
-##### 예를 통한 이해
-
 DIT가 \[그림3.2\]과 같이 구성되어있을 경우, &lt;what&gt;이 어떻게 구성되어질 수 있는지 대해 확인해 보자.
 
 ![](/assets/Selection_005.png)
@@ -541,6 +539,73 @@ to dn.one="ou=people,o=suffix" filter=(objectClass=person)
 | self | 목적 엔트리와 연관된 사용자 |
 | dn\[.&lt;basic-style&gt;\]=&lt;regex&gt; | 정규 표현식에 연결되는 사용자 |
 | dn.&lt;scope-style&gt;=&lt;DN&gt; | 해당 DN의 scope에 해당되는 사용자 |
+
+#### 어느 정도의 접근을 허용 할 것인가?
+
+&lt;access&gt;는 위에서 정의한 &lt;what&gt;을 &lt;who&gt;에게 어느 정도 단계\(Level\)까지 허용할 것인지에 대한 설정이라 볼 수 있다.
+
+다음 표는 접근 단계를 보여준다. 여기서 상위 단계는 하위 모든단계를 묵시적으로 포함한다.
+
+**\[표 3.4\] 접근 단계**
+
+| **Level** | **Privileges** | **Description** |
+| :--- | :--- | :--- |
+| none = | 0 | no access |
+| disclose = | d | needed for information disclosure on error |
+| auth = | dx | needed to authenticate \(bind\) |
+| compare = | cdx | needed to compare |
+| search = | scdx | needed to apply search filters |
+| read = | rscdx | needed to read search results |
+| write = | wrscdx | needed to modify/rename |
+| manage = | mwrscdx | needed to manage |
+
+#### 접근 제어 예제
+
+다양한 예제를 통하여 접근 제어를 확인해보자
+
+```
+access to * by * read
+```
+
+위 접근 지시자는 모든 사용자에게 읽기 권한을 주는 예이다. 
+
+```
+access to *
+    by self write
+    by anonymous auth
+    by * read
+```
+
+위의 경우 자신의 엔트리는 수정할 수 있으며, 익명 사용자경우 엔트리들에 대해 인증을 강제화하고 그외에는 읽을 수 있는 권한을 주는 예이다.
+
+```
+access to dn.subtree="dc=example,dc=com" attrs=homePhone
+    by self write
+    by dn.children="dc=example,dc=com" search
+    by peername.regex=IP=10\..+ read
+access to dn.subtree="dc=example,dc=com"
+    by self write
+    by dn.children="dc=example,dc=com" search
+    by anonymous auth
+```
+
+위는 우선 순위\(ordering\) 중요성을 보여주는 예제로 homePhone 속성을 제외한 모든 속성을 스스로 변경이 가능하고,  example.com 하위 엔트리들은 검색을 허용지만 그외 사용자는 인증을 받도록 강제화한다. 여기서 homePhone은 엔트리 자신만 변경가능하고 example.com 하위 엔트리들은 검색을 허용하며, 접근 피어\(혹은 클라이언트\)는 반드시 10.0.0.0 네트워크 IP를 가져야한다.
+
+마지막으로 여기서는 생략되어있으나 맨하위 접근 지시자, _by \* none_은 암묵적으로 적용되어지게된다.
+
+#### 접근 제어 디버깅
+
+OpenLDAP의 slapd는 접근 제어 디버깅을 쉽게 할 수 있도록 별도의 디버깅 값을 지정해 놓았다. 본인 경우 다음과 같은 짧은 스크립트를 작성해 놓고 접근 제어를 테스트 하곤 한다.
+
+```
+# cat debug_slapd.sh 
+#!/bin/bash
+systemctl stop slapd
+/usr/sbin/slapd -u ldap -h  "ldapi:/// ldaps:///" -d 128
+systemctl start slapd
+```
+
+테스트 시 위 스크립트를 실행하여 콘솔을 통하여 접근제어가 어떻게 진행되어지는지 확인이 가능하다.
 
 
 
