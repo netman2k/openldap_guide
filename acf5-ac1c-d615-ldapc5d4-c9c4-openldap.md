@@ -46,7 +46,7 @@ OpenLDAP 패키지를 설치를 완료하게되면, slapd를 설정할 수 있�
 
 OpenLDAP 2.3 이후 버전에서는 기본적으로 이전 버전까지 사용된 정적 설정 파일을 통한 설정이 아닌, 동적 런타임 설정 엔진\(Dynamic runtime configuration engine\) - slapd-config 을 사용하도록 되어져있다.
 
-> OpenLDAP 2.3 이전에서는 slapd.conf 파일 수정을 통하여 시스템 설정을 진행하였음.   
+> OpenLDAP 2.3 이전에서는 slapd.conf 파일 수정을 통하여 시스템 설정을 진행하였음.  
 > 만일 설정이 변경될 경우 데몬 프로그램의 재시작이 필수 불가결이었다.
 >
 > 자세한 사항은 slapd-config man page를 통해 확인 가능하다. 참고로 기본으로 제공되는 공식 관리자 가이드에서는 설정 방식의 상당 부분이 기존 정적 설정 파일 방식만 보여줄 뿐, 동적 런타임 설정 방법은 빠져있다. 따라서 가급적 man page 활용을 할 수 있도록 한다.
@@ -437,7 +437,7 @@ olcDbIndex: objectClass eq
 
 ### Access Control
 
-Access Control을 통해 우리는 마치 파일시스템의 파일과 디렉토리에 소유자와 권한을 설정해 주는 것과 같이, OpenLDAP은 Access Control을 통하여 각각의 엔트리\(Entry\)나 속성\(Attribute\)에 접근 권한을 설정할 수 있다. 다음은 Access 라인에 대한 일반적 형식을 보여준다.
+Access Control을 통해 우리는 마치 파일시스템의 파일과 디렉토리에 소유자와 권한을 설정해 주는 것과 같이, OpenLDAP은 Access Control을 통하여 각각의 엔트리\(Entry\)나 속성\(Attribute\)에 접근 권한을 설정할 수 있다. 다음은 접근 정의서\(Access specification\)에서는 각 Access 라인에 대한 일반적 형식을 보여준다.
 
 ```
     <access directive> ::= access to <what>
@@ -463,12 +463,73 @@ Access Control을 통해 우리는 마치 파일시스템의 파일과 디렉토
     <level> ::= none | disclose | auth | compare | search | read | write | manage
     <priv> ::= {=|+|-}{m|w|r|s|c|x|d|0}+
     <control> ::= [stop | continue | break]
-
 ```
 
-위 &lt;what&gt; 은 Access Control을 적용할 엔트리 나 속성
+이것만 보면 정말 어렵게 느껴지니 간단한 예제들을 통하여 설명하도록 한다.
+
+#### 어떤 것\(what\)을 설정 할 것인가?
+
+&lt;what&gt; 파트는 어떤 엔트리나 속성에 접근 제어를 적용할 지에 대한 설정을 할 수 있도록 해준다. 일반적으로 엔트리는 DN과 필터\(filter\)를 통하여 설정되어지는데 다음은 DN을 통하여 접근 대상을 설정하는 방식을 보여준다.
+
+```
+    to *
+    to dn[.<basic-style>]=<regex>
+    to dn.<scope-style>=<DN>
+```
+
+* 첫번째 라인: 모든 엔트리 지정
+* 두번째 라인: 정규표현식을 통하여 DN 지정
+* 세번째 라인: 범위 지정을 통한 DN 지정
+
+##### 예를 통한 이해
+
+DIT가 \[그림3.2\]과 같이 구성되어있을 경우, &lt;what&gt;이 어떻게 구성되어질 수 있는지 대해 확인해 보자.
 
 
+
+![](/assets/Selection_005.png)
+
+**\[그림3.2\] 예제 그래프**
+
+**dn.base="ou=people,o=suffix"**
+
+dn.base는 단일 DIT 객체를 가르킨다. 따라서 여기서는 ou=people만 해당되게된다.
+
+![](/assets/Selection_006.png)
+
+**dn.one="ou=people,o=suffix"**
+
+dn.one은 지정된 DIT 객체의 1차 자식 개체를 가르킨다. 따라서 여기서는 ou=people의 자식 노드에 해당되는 uid=kdz,ou=people,o=suffix와  uid=hyc,ou=people,o=suffix 해당되게된다.
+
+![](/assets/Selection_007.png)
+
+**dn.subtree="ou=people,o=suffix"**
+
+dn.subtree는 지정된 DIT 객체 자신을 포함한 모든 하위 자식 개체를 가르킨다. 따라서 여기서는 ou=people 및 하위 모든 자식 노드에 해당된다.
+
+
+
+![](/assets/Selection_008.png)
+
+##### dn.children="ou=people,o=suffix"
+
+dn.children은 subtree와 달리 지정된 DIT 객체 자신을 포함하지 않는다는 것을 제외하고는 모든게 동일한다.
+
+![](/assets/Selection_009.png)
+
+##### 필터\(filter\)를 통한 엔트리 선택
+
+위 방법 외에도 필터를 통한 엔트리가 선택될 수 있다. 
+
+```
+to filter=<ldap filter>
+```
+
+```
+to dn.one="ou=people,o=suffix" filter=(objectClass=person)
+```
+
+\[그림 3.2\]의 형태의 데이터를 가질 경우, 위 코드는 반드시 ou=people DIT가 person objectClass로 정의되어야 한다.
 
 
 
