@@ -485,8 +485,6 @@ Access Control을 통해 우리는 마치 파일시스템의 파일과 디렉토
 
 DIT가 \[그림3.2\]과 같이 구성되어있을 경우, &lt;what&gt;이 어떻게 구성되어질 수 있는지 대해 확인해 보자.
 
-
-
 ![](/assets/Selection_005.png)
 
 **\[그림3.2\] 예제 그래프**
@@ -507,8 +505,6 @@ dn.one은 지정된 DIT 객체의 1차 자식 개체를 가르킨다. 따라서 
 
 dn.subtree는 지정된 DIT 객체 자신을 포함한 모든 하위 자식 개체를 가르킨다. 따라서 여기서는 ou=people 및 하위 모든 자식 노드에 해당된다.
 
-
-
 ![](/assets/Selection_008.png)
 
 ##### dn.children="ou=people,o=suffix"
@@ -519,7 +515,7 @@ dn.children은 subtree와 달리 지정된 DIT 객체 자신을 포함하지 않
 
 ##### 필터\(filter\)를 통한 엔트리 선택
 
-위 방법 외에도 필터를 통한 엔트리가 선택될 수 있다. 
+위 방법 외에도 필터를 통한 엔트리가 선택될 수 있다.
 
 ```
 to filter=<ldap filter>
@@ -530,6 +526,21 @@ to dn.one="ou=people,o=suffix" filter=(objectClass=person)
 ```
 
 \[그림 3.2\]의 형태의 데이터를 가질 경우, 위 코드는 반드시 ou=people DIT가 person objectClass로 정의되어야 한다.
+
+#### 누구\(who\)에게 허용 할 것인가?
+
+&lt;who&gt; 부분은 어떤 _엔티티\(entity\)_에 허용할 지에 대한 설정이다.
+
+**\[표 3.3\] 접근 엔티티 정의서 **
+
+| **Specifier** | **Entities** |
+| :--- | :--- |
+|  | 익명 사용자와 인증한 사용자를 포함한 전체 사용자 |
+| anonymous | \(인증 받지 않은\) 익명 사용자 |
+| users | 인증 받은 사용자 |
+| self | 목적 엔트리와 연관된 사용자 |
+| dn\[.&lt;basic-style&gt;\]=&lt;regex&gt; | 정규 표현식에 연결되는 사용자 |
+| dn.&lt;scope-style&gt;=&lt;DN&gt; | 해당 DN의 scope에 해당되는 사용자 |
 
 
 
