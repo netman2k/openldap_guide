@@ -1,6 +1,4 @@
-#  {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
-
-# 3. OpenLDAP에 대한 이해 {#LDAP의모든것2-공개형LDAP엔진OpenLDAP}
+# 3. OpenLDAP에 대한 이해
 
 ## OpenLDAP에 대한 간단한 소개 {#LDAP의모든것2-OpenLDAP에대한간단한소개}
 
@@ -19,9 +17,7 @@ LDAPv3는 LDAP 2를 대체하기 위해 1990에 개발되었으며 다음과 같
 * Schema Discovery
 * 확장성 \(controls, extended operations, and more\)
 
-
-
-### 설정 구조\(Configuration Layout\)
+## 설정 구조\(Configuration Layout\)
 
 slapd 설정은 미리 정의된 스키마\(schema\)와 DIT를 통해 특수한 LDAP 디렉터리에 저장이 되도록 되어있다. 또한 전역\(global\) 설정 옵션, 스키마 정의, 백앤드와 데이터베이스 정의 그리고 이와 연관되어지는 다른 아이템들을 지니기 위해 특정 objectClass가 사용되어진다.
 

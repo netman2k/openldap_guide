@@ -1,3 +1,7 @@
+# OpenLDAP의 기본 설정
+
+본 장에서는 OpenLDAP을 설치하고 기본 설정을 통하여 서비스 준비 상태로 만드는 것을 목표로 한다.
+
 ## OpenLDAP 설치 {#openldap설치}
 
 본 가이드는 CentOS 7.X 를 기본 OS로 사용하며, 기본적으로 제공하는 OpenLDAP 패키지를 사용할 것이다. 만일 다른 OS 플랫폼을 사용하거나 본 가이드와 맞지 않는 경우, 공식 관리자 가이드의 [4. Building and Installing OpenLDAP Software](http://www.openldap.org/doc/admin24/install.html) 참고하도록 한다.
