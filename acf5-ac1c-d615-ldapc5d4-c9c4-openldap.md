@@ -40,9 +40,16 @@ openldap-devel-2.4.40-13.el7.x86_64
 
 ## slapd 설정 {#configuratio}
 
-OpenLDAP 패키지를 설치를 완료하게되면, slapd[^1]를 설정할 수 있는 준비 상태가 되어진다.
+OpenLDAP 패키지를 설치를 완료하게되면, slapd를 설정할 수 있는 준비 상태가 되어진다.
 
-OpenLDAP 2.3 이후 버전에서는 기본적으로 이전 버전까지 사용된 정적 설정 파일[^2]을 통한 설정이 아닌, 동적 런타임 설정 엔진\(Dynamic runtime configuration engine\) - slapd-config[^3] 을 사용하도록 되어져있다.
+> slapd는 독립 서비스\(standalone service\)를 수행할 수 있도록 해주는 데몬 프로그램이다.
+
+OpenLDAP 2.3 이후 버전에서는 기본적으로 이전 버전까지 사용된 정적 설정 파일을 통한 설정이 아닌, 동적 런타임 설정 엔진\(Dynamic runtime configuration engine\) - slapd-config 을 사용하도록 되어져있다.
+
+> OpenLDAP 2.3 이전에서는 slapd.conf 파일 수정을 통하여 시스템 설정을 진행하였음.   
+> 만일 설정이 변경될 경우 데몬 프로그램의 재시작이 필수 불가결이었다.
+>
+> 자세한 사항은 slapd-config man page를 통해 확인 가능하다. 참고로 기본으로 제공되는 공식 관리자 가이드에서는 설정 방식의 상당 부분이 기존 정적 설정 파일 방식만 보여줄 뿐, 동적 런타임 설정 방법은 빠져있다. 따라서 가급적 man page 활용을 할 수 있도록 한다.
 
 slapd-config는 다음과 같은 특징을 가진다:
 
@@ -428,11 +435,40 @@ olcDbIndex: objectClass eq
 
 > sub: substring
 
-###### 
+### Access Control
 
-[^1]: slapd는 독립 서비스\(standalone service\)를 수행할 수 있도록 해주는 데몬 프로그램이다.
+Access Control을 통해 우리는 마치 파일시스템의 파일과 디렉토리에 소유자와 권한을 설정해 주는 것과 같이, OpenLDAP은 Access Control을 통하여 각각의 엔트리\(Entry\)나 속성\(Attribute\)에 접근 권한을 설정할 수 있다. 다음은 Access 라인에 대한 일반적 형식을 보여준다.
 
-[^2]: 기존 버전은 slapd.conf 파일 수정을 통하여 시스템 설정을 진행하였음. 만일 설정이 변경될 경우 데몬 프로그램의 재시작이 필수 불가결이었다.
+```
+    <access directive> ::= access to <what>
+        [by <who> [<access>] [<control>] ]+
+    <what> ::= * |
+        [dn[.<basic-style>]=<regex> | dn.<scope-style>=<DN>]
+        [filter=<ldapfilter>] [attrs=<attrlist>]
+    <basic-style> ::= regex | exact
+    <scope-style> ::= base | one | subtree | children
+    <attrlist> ::= <attr> [val[.<basic-style>]=<regex>] | <attr> , <attrlist>
+    <attr> ::= <attrname> | entry | children
+    <who> ::= * | [anonymous | users | self
+            | dn[.<basic-style>]=<regex> | dn.<scope-style>=<DN>]
+        [dnattr=<attrname>]
+        [group[/<objectclass>[/<attrname>][.<basic-style>]]=<regex>]
+        [peername[.<basic-style>]=<regex>]
+        [sockname[.<basic-style>]=<regex>]
+        [domain[.<basic-style>]=<regex>]
+        [sockurl[.<basic-style>]=<regex>]
+        [set=<setspec>]
+        [aci=<attrname>]
+    <access> ::= [self]{<level>|<priv>}
+    <level> ::= none | disclose | auth | compare | search | read | write | manage
+    <priv> ::= {=|+|-}{m|w|r|s|c|x|d|0}+
+    <control> ::= [stop | continue | break]
 
-[^3]: 자세한 사항은 slapd-config man page를 통해 확인 가능하다. 참고로 기본으로 제공되는 공식 관리자 가이드에서는 설정 방식의 상당 부분이 기존 정적 설정 파일 방식만 보여줄 뿐, 동적 런타임 설정 방법은 빠져있다. 따라서 가급적 man page 활용을 할 수 있도록 한다.
+```
+
+위 &lt;what&gt; 은 Access Control을 적용할 엔트리 나 속성
+
+
+
+
 
