@@ -77,48 +77,48 @@ slapd-config는 다음과 같은 특징을 가진다:
 [root@master openldap]# tree /etc/openldap
 /etc/openldap
 ├── certs
-│   ├── cert8.db
-│   ├── key3.db
-│   ├── password
-│   └── secmod.db
+│   ├── cert8.db
+│   ├── key3.db
+│   ├── password
+│   └── secmod.db
 ├── check_password.conf
 ├── ldap.conf
 ├── schema
-│   ├── collective.ldif
-│   ├── collective.schema
-│   ├── corba.ldif
-│   ├── corba.schema
-│   ├── core.ldif
-│   ├── core.schema
-│   ├── cosine.ldif
-│   ├── cosine.schema
-│   ├── duaconf.ldif
-│   ├── duaconf.schema
-│   ├── dyngroup.ldif
-│   ├── dyngroup.schema
-│   ├── inetorgperson.ldif
-│   ├── inetorgperson.schema
-│   ├── java.ldif
-│   ├── java.schema
-│   ├── misc.ldif
-│   ├── misc.schema
-│   ├── nis.ldif
-│   ├── nis.schema
-│   ├── openldap.ldif
-│   ├── openldap.schema
-│   ├── pmi.ldif
-│   ├── pmi.schema
-│   ├── ppolicy.ldif
-│   └── ppolicy.schema
+│   ├── collective.ldif
+│   ├── collective.schema
+│   ├── corba.ldif
+│   ├── corba.schema
+│   ├── core.ldif
+│   ├── core.schema
+│   ├── cosine.ldif
+│   ├── cosine.schema
+│   ├── duaconf.ldif
+│   ├── duaconf.schema
+│   ├── dyngroup.ldif
+│   ├── dyngroup.schema
+│   ├── inetorgperson.ldif
+│   ├── inetorgperson.schema
+│   ├── java.ldif
+│   ├── java.schema
+│   ├── misc.ldif
+│   ├── misc.schema
+│   ├── nis.ldif
+│   ├── nis.schema
+│   ├── openldap.ldif
+│   ├── openldap.schema
+│   ├── pmi.ldif
+│   ├── pmi.schema
+│   ├── ppolicy.ldif
+│   └── ppolicy.schema
 └── slapd.d
     ├── cn=config
-    │   ├── cn=schema
-    │   │   └── cn={0}core.ldif
-    │   ├── cn=schema.ldif
-    │   ├── olcDatabase={0}config.ldif
-    │   ├── olcDatabase={-1}frontend.ldif
-    │   ├── olcDatabase={1}monitor.ldif
-    │   └── olcDatabase={2}hdb.ldif
+    │   ├── cn=schema
+    │   │   └── cn={0}core.ldif
+    │   ├── cn=schema.ldif
+    │   ├── olcDatabase={0}config.ldif
+    │   ├── olcDatabase={-1}frontend.ldif
+    │   ├── olcDatabase={1}monitor.ldif
+    │   └── olcDatabase={2}hdb.ldif
     └── cn=config.ldif
 
 5 directories, 39 files
@@ -176,7 +176,7 @@ olcDbDirectory: /var/lib/ldap
 olcRootDN: cn=Manager,dc=example,dc=com
 olcRootPW: secret
 olcDbIndex: cn,sn,uid pres,eq,approx,sub
-olcDbIndex: objectClass eq                           
+olcDbIndex: objectClass eq
 ```
 
 ```
@@ -189,7 +189,9 @@ adding new entry "olcDatabase=mdb,cn=config"
 
 > -Y EXTERNAL은 ldapadd 커맨드에게 SASL 프로토콜을 통하여 현재 로그인된 시스템 계정을 사용하도록 하는 옵션이다.
 >
-> 자세한 사항은 http://www.openldap.org/doc/admin24/sasl.html를 참고한다.
+> 자세한 사항은 [http://www.openldap.org/doc/admin24/sasl.html를](http://www.openldap.org/doc/admin24/sasl.html를) 참고한다.
+>
+> LDIF에 대한 사항은 http://www.openldap.org/doc/admin24/dbtools.html 의 10.3. The LDIF text entry format을 참고한다.
 
 이제 ldapsearch라는 쿼리를 사용하여 현재 설정된 사항을 확인해 보도록 하자.
 
@@ -243,18 +245,17 @@ openldap-servers 패키지는 /sbin/slappasswd라는 커맨드를 제공한다. 
 
 ```
 Usage: slappasswd [options]
-  -c format	crypt(3) salt format
-  -g		generate random password
-  -h hash	password scheme
-  -n		omit trailing newline
+  -c format    crypt(3) salt format
+  -g        generate random password
+  -h hash    password scheme
+  -n        omit trailing newline
   -o <opt>[=val] specify an option with a(n optional) value
-  	module-path=<pathspec>
-  	module-load=<filename>
-  -s secret	new password
-  -u		generate RFC2307 values (default)
-  -v		increase verbosity
-  -T file	read file for new password
-
+      module-path=<pathspec>
+      module-load=<filename>
+  -s secret    new password
+  -u        generate RFC2307 values (default)
+  -v        increase verbosity
+  -T file    read file for new password
 ```
 
 그런데 과연 이것을 어떻게 사용하는 것인가? 단순히 slappasswd를 실행했을 경우는 다음과 같이 새로운 암호를 물어보게된다.
@@ -354,7 +355,7 @@ SASL username: gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth
 SASL SSF: 0
 adding new entry "dc=example,dc=com"
 ldap_add: Insufficient access (50)
-	additional info: no write access to parent
+    additional info: no write access to parent
 ```
 
 위 데이터베이스 생성 시는 아무런 문제가 없었지만 이제는 오류가 발생되며 진행이 되지 않음을 볼 수 있다.
@@ -371,7 +372,7 @@ adding new entry "dc=example,dc=com"
 adding new entry "cn=Manager,dc=example,dc=com"
 ```
 
-결과와 같이 RootDN을 사용할 경우 문제 없이 추가가 되었음을 확인할 수 있다. 
+결과와 같이 RootDN을 사용할 경우 문제 없이 추가가 되었음을 확인할 수 있다.
 
 이제 ldapsearch 커맨드를 통하여 확인해보자.
 
