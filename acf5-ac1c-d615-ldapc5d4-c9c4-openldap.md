@@ -435,9 +435,9 @@ olcDbIndex: objectClass eq
 
 > sub: substring
 
-### Access Control
+### 접근 제어\(Access Control\)
 
-Access Control을 통해 우리는 마치 파일시스템의 파일과 디렉토리에 소유자와 권한을 설정해 주는 것과 같이, OpenLDAP은 Access Control을 통하여 각각의 엔트리\(Entry\)나 속성\(Attribute\)에 접근 권한을 설정할 수 있다. 다음은 접근 정의서\(Access specification\)에서는 각 Access 라인에 대한 일반적 형식을 보여준다.
+접근제어를 통해 우리는 마치 파일시스템의 파일과 디렉토리에 소유자와 권한을 설정해 주는 것과 같이, OpenLDAP은 접근제어를 통하여 각각의 엔트리\(Entry\)나 속성\(Attribute\)에 접근 권한을 설정할 수 있다. 다음은 접근 정의서\(Access specification\)에서는 각 Access 라인에 대한 일반적 형식을 보여준다.
 
 ```
     <access directive> ::= access to <what>
@@ -529,7 +529,7 @@ to dn.one="ou=people,o=suffix" filter=(objectClass=person)
 
 #### 누구\(who\)에게 허용 할 것인가?
 
-&lt;who&gt; 부분은 어떤 _엔티티\(entity\)_에 허용할 지에 대한 설정이다.
+&lt;who&gt; 부분은 어떤 _엔티티\(entity\)_에 접근 제어를 허용할 지에 대한 설정이다.
 
 **\[표 3.3\] 접근 엔티티 정의서 **
 
