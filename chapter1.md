@@ -10,11 +10,11 @@ LDAP란 무엇일까? Lightweight Directory Access Protocol이라는 말인데 �
 
 ## LDAP 들여다 보기 {#LDAP의모든것2-LDAP들여다보기}
 
-![](/assets/image001.jpg)
+![](assets/image001.jpg)
 
 **\[그림 2.1\] 파일 시스템에서의 간단한 디렉토리의 구조의 예**
 
-![](/assets/image002.jpg)
+![](assets/image002.jpg)
 
 **\[그림 2.2\] LDAP에서의 간단한 디렉토리의 구조의 예**
 
@@ -37,7 +37,7 @@ LDAP란 무엇일까? Lightweight Directory Access Protocol이라는 말인데 �
 
 다음 그림은 전형적인 LDAP의 구조를 엔트리 내용을 좀더 자세히 해서 보여주는 예이다.
 
-![](/assets/image003.jpg)
+![](assets/image003.jpg)
 
 **\[그림 3\] 좀더 자세히 그린 엔트리와 LDAP디렉토리 구조**
 
