@@ -22,6 +22,8 @@ TODO
 
 ```
 
+> 참조: [Planning of LDAP DIT Structure and Config of Overlays ( access, ppolicy )](https://devopsideas.com/planning-of-ldap-dit-structure-and-config-of-overlays-access-ppolicy/)
+
 
 
 
