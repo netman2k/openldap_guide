@@ -1,0 +1,3 @@
+[submodule "openldap.git"]
+	path = openldap
+	url = git://git.openldap.org/openldap.git
