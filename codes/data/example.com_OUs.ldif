@@ -4,8 +4,8 @@ ou: People
 objectClass: top
 objectClass: organizationalUnit
 
-dn: ou=Group,dc=example,dc=com
-ou: Group
+dn: ou=Groups,dc=example,dc=com
+ou: Groups
 objectClass: top
 objectClass: organizationalUnit
 

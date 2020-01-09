@@ -1,5 +1,5 @@
 # Assign members to one of the groups
-dn: cn=SE,ou=Group,dc=example,dc=com
+dn: cn=SE,ou=Groups,dc=example,dc=com
 changetype: modify
 add: member
 member: uid=martin.smith,ou=People,dc=example,dc=com
@@ -33,7 +33,7 @@ member: uid=ashley.wade,ou=People,dc=example,dc=com
 member: uid=trevor.farmer,ou=People,dc=example,dc=com
 member: uid=luis.navarro,ou=People,dc=example,dc=com
 
-dn: cn=DBA,ou=Group,dc=example,dc=com
+dn: cn=DBA,ou=Groups,dc=example,dc=com
 changetype: modify
 add: member
 member: uid=james.ibarra,ou=People,dc=example,dc=com
@@ -74,7 +74,7 @@ member: uid=michael.anthony,ou=People,dc=example,dc=com
 member: uid=mitchell.montgomery,ou=People,dc=example,dc=com
 member: uid=stephanie.davis,ou=People,dc=example,dc=com
 
-dn: cn=Developer,ou=Group,dc=example,dc=com
+dn: cn=Developer,ou=Groups,dc=example,dc=com
 changetype: modify
 add: member
 member: uid=brandon.durham,ou=People,dc=example,dc=com

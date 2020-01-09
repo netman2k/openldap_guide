@@ -11,7 +11,7 @@ organizational_roles:
 # - https://ldapwiki.com/wiki/LDIF%20Examples%20Of%20NIS%20Migrated%20Entries
 organizational_units:
   - People
-  - Group
+  - Groups
   - Hosts
   - Networks
   - Policies
@@ -22,7 +22,7 @@ groups:
     objectclasses:
       - groupOfNames
       - posixGroup
-    parent_ou: ou=Group
+    parent_ou: ou=Groups
     gid: 2000
     members:
       - cn=Manager
@@ -30,7 +30,7 @@ groups:
     objectclasses:
       - groupOfNames
       - posixGroup
-    parent_ou: ou=Group
+    parent_ou: ou=Groups
     gid: 2001
     members:
       - cn=Manager
@@ -38,7 +38,7 @@ groups:
     objectclasses:
       - groupOfNames
       - posixGroup
-    parent_ou: ou=Group
+    parent_ou: ou=Groups
     gid: 2002
     members:
       - cn=Manager
