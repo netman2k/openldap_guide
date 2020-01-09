@@ -19,8 +19,8 @@ vagrant ssh <master1 or master2 or master3>
 ```
 * Access the codes
 ```bash
-[vagrant@infapp-ker001 ~]$ sudo su -
-[root@infapp-ker001 ~]# cd /vagrant/
+[vagrant@ker001 ~]$ sudo su -
+[root@ker001 ~]# cd /vagrant/
 ```
 
 ## Initialize OpenLDAP Server
