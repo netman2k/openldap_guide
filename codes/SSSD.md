@@ -3,7 +3,7 @@
 
 ## Package Installation
 ```
-[root@ker002 vagrant]# yum install sssd-ldap
+[root@ker002 vagrant]# yum install sssd sssd-ldap
 ```
 
 ## SSSD Configuration
