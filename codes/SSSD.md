@@ -68,13 +68,14 @@ account     sufficient    pam_succeed_if.so uid < 500 quiet
 account     [default=bad success=ok user_unknown=ignore] pam_sss.so
 account     required      pam_permit.so
  
-password    requisite     pam_cracklib.so try_first_pass retry=3 type=
+password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=
 password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok
 password    sufficient    pam_sss.so use_authtok
 password    required      pam_deny.so
  
 session     optional      pam_keyinit.so revoke
 session     required      pam_limits.so
+-session     optional      pam_systemd.so
 session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid
 session     required      pam_unix.so
 session     optional      pam_sss.so
@@ -94,7 +95,7 @@ auth        required      pam_deny.so
  
 account     required      pam_unix.so
 account     sufficient    pam_localuser.so
-account     sufficient    pam_succeed_if.so uid < 500 quiet
+account     sufficient    pam_succeed_if.so uid < 1000 quiet
 account     [default=bad success=ok user_unknown=ignore] pam_sss.so
 account     required      pam_permit.so
  
@@ -105,6 +106,7 @@ password    required      pam_deny.so
  
 session     optional      pam_keyinit.so revoke
 session     required      pam_limits.so
+-session     optional      pam_systemd.so
 session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid
 session     required      pam_unix.so
 session     optional      pam_sss.so
