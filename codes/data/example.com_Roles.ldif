@@ -1,0 +1,6 @@
+# Organizational Roles
+dn: cn=Manager,dc=example,dc=com
+objectClass: top
+objectClass: organizationalRole
+cn: Manager
+

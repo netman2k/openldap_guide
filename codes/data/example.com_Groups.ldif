@@ -1,0 +1,26 @@
+# Groups
+dn: cn=SE,ou=Group,dc=example,dc=com
+cn: SE
+gidNumber: 2000
+objectClass: top
+objectClass: groupOfNames
+objectClass: posixGroup
+member: cn=Manager,dc=example,dc=com
+
+dn: cn=DBA,ou=Group,dc=example,dc=com
+cn: DBA
+gidNumber: 2001
+objectClass: top
+objectClass: groupOfNames
+objectClass: posixGroup
+member: cn=Manager,dc=example,dc=com
+
+dn: cn=Developer,ou=Group,dc=example,dc=com
+cn: Developer
+gidNumber: 2002
+objectClass: top
+objectClass: groupOfNames
+objectClass: posixGroup
+member: cn=Manager,dc=example,dc=com
+
+

@@ -1,0 +1,26 @@
+# Organizational Units
+dn: ou=People,dc=example,dc=com
+ou: People
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=Group,dc=example,dc=com
+ou: Group
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=Hosts,dc=example,dc=com
+ou: Hosts
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=Networks,dc=example,dc=com
+ou: Networks
+objectClass: top
+objectClass: organizationalUnit
+
+dn: ou=Policies,dc=example,dc=com
+ou: Policies
+objectClass: top
+objectClass: organizationalUnit
+

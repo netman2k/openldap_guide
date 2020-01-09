@@ -1,0 +1,5 @@
+dn: olcDatabase={-1}frontend,cn=config
+changetype: modify
+# Set default password algorithm
+add: olcPasswordHash
+olcPasswordHash: {SSHA512}

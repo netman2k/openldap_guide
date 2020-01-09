@@ -1,0 +1,18 @@
+dn: olcOverlay={0}auditlog,olcDatabase={0}config,cn=config
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+objectClass: olcAuditlogConfig
+olcOverlay: {0}auditlog
+olcAuditlogFile: /var/lib/ldap/log/cn_config.log
+
+dn: olcDatabase={1}monitor,cn=config
+objectClass: olcDatabaseConfig
+olcDatabase: {1}monitor
+olcRootDN: cn=monitor,cn=Monitor
+# STRONGpassword
+olcRootPW: {SSHA512}vObjb8nZ0wqdcrZ5nKUczKWO3Gf6TUz0h0WizOsEiAq4biBVCHd/A1Budkr/2AXZQX0DBALoDauGAWGKcqKx/l8UeezyrU42SU5dWMmvi7Q=
+olcAccess: {0}to dn.subtree="cn=Monitor"
+  by dn.exact=gidNumber=0+uidNumber=0,cn=peercred,cn=external,cn=auth manage
+  by users read
+  by * none
+

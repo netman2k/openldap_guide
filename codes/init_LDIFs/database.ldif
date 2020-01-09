@@ -1,0 +1,101 @@
+dn: olcDatabase={3}mdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMdbConfig
+olcDatabase: {3}mdb
+olcDbDirectory: /var/lib/ldap/data/
+olcSuffix: dc=example,dc=com
+# 100GB ( 100 * 1024 * 1024 * 1024 )
+olcDbMaxSize: 107374182400
+olcRootDN: cn=Manager,dc=example,dc=com
+# STRONGpassword
+olcRootPW: {SSHA512}DNvaESSRbwmEB87vAUdrL99tuVmCl3JJdR8k2bzDpOlvzVZw0AXW1OwJvi/gxkun/9s26wdSDsd0t0fsQw9XvfBQMZ52fwRqcyUle8M2AKE=
+olcDbIndex: entryCSN eq
+olcDbIndex: entryUUID eq
+olcDbIndex: cn pres,eq
+olcDbIndex: gidNumber eq,pres
+olcDbIndex: ipHostNumber pres,eq
+olcDbIndex: loginShell pres,eq
+olcDbIndex: mail eq
+olcDbIndex: member eq
+olcDbIndex: objectclass eq
+olcDbIndex: ou pres,eq
+olcDbIndex: sn eq,sub
+olcDbIndex: uidNumber eq,pres
+olcDbIndex: uid eq,pres,sub
+olcAccess: {0}to dn.subtree="dc=example,dc=com" attrs=userPassword
+  by dn.base="cn=Manager,dc=example,dc=com" manage
+  by self write
+  by anonymous auth
+  by * none
+olcAccess: {1}to dn.subtree="dc=example,dc=com"
+  by dn.base="cn=Manager,dc=example,dc=com" manage
+  by dn.base="cn=Replicator,dc=example,dc=com" read
+  by dn.base="cn=Lookup,dc=example,dc=com" read
+  by self write
+  by anonymous auth
+  by * none"
+olcLimits: dn.exact="cn=Replicator,dc=example,dc=com"
+  time.soft=unlimited time.hard=unlimited
+  size.soft=unlimited size.hard=unlimited
+
+# define access log overlay entry and attributes
+# prunes the accesslog every day:
+#   deletes entries more than 2 days old
+# log writes (covers add, delete, modify, modrdn)
+# log only successful operations
+# log has base suffix of cn=deltalog
+dn: olcOverlay={0}accesslog,olcDatabase={3}mdb,cn=config
+objectClass: olcAccessLogConfig
+olcOverlay: {0}accesslog
+olcAccessLogDb: cn=deltalog
+olcAccessLogOps: writes
+olcAccessLogSuccess: TRUE
+olcAccessLogPurge: 2+00:00 1+00:00
+
+dn: olcOverlay={3}syncprov,olcDatabase={3}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: {3}syncprov
+# contextCSN saved to database every 100 updates or 10 min.
+olcSpCheckpoint: 100 10
+olcSpNoPresent: TRUE
+olcSpReloadHint: TRUE
+
+dn: olcOverlay={2}ppolicy,olcDatabase={3}mdb,cn=config
+objectClass: olcOverlayConfig
+objectClass: olcPPolicyConfig
+olcOverlay: {2}ppolicy
+olcPPolicyDefault: cn=default,ou=Policies,dc=example,dc=com
+# Hash passwords on add or modify
+olcPPolicyHashCleartext: FALSE
+# Warn clients with AccountLocked
+olcPPolicyUseLockout: FALSE
+# Allow policy state updates to be forwarded via updateref
+olcPPolicyForwardUpdates: FALSE
+
+dn: olcOverlay={3}memberof,olcDatabase={3}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+objectClass: olcMemberOf
+olcOverlay: {3}memberof
+olcMemberOfDangling: ignore
+olcMemberOfRefInt: TRUE
+olcMemberOfGroupOC: groupOfNames
+olcMemberOfMemberAD: member
+olcMemberOfMemberOfAD: memberOf
+
+dn: olcOverlay={4}refint,olcDatabase={3}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+objectClass: olcRefintConfig
+olcOverlay: {4}refint
+olcRefintAttribute: memberof member manager owner
+olcRefintNothing: cn=Manager,dc=example,dc=com
+
+dn: olcOverlay={5}auditlog,olcDatabase={3}mdb,cn=config
+changetype: add
+objectClass: olcOverlayConfig
+objectClass: olcAuditLogConfig
+olcOverlay: {5}auditlog
+olcAuditlogFile: /var/lib/ldap/log/example_net.log

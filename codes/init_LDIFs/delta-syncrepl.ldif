@@ -1,0 +1,26 @@
+# Enable Delta-syncrepl replication
+# http://www.openldap.org/doc/admin24/replication.html#Delta-syncrepl
+dn: olcDatabase={2}mdb,cn=config
+objectClass: olcDatabaseConfig
+objectClass: olcMdbConfig
+olcDatabase: {2}mdb
+olcSuffix: cn=deltalog
+olcRootDN: cn=accesslog
+olcDbDirectory: /var/lib/ldap/deltalog
+olcDbIndex: default eq
+olcDbIndex: entryCSN,objectClass,reqEnd,reqResult,reqStart,reqMod,reqDN
+olcDbMode: 0600
+# 100GB ( 50 * 1024 * 1024 * 1024 )
+olcDbMaxSize: 107374182400
+olcLimits: dn.exact="cn=Replicator,dc=example,dc=com" 
+ time.soft=unlimited time.hard=unlimited 
+ size.soft=unlimited size.hard=unlimited
+
+dn: olcOverlay={0}syncprov,olcDatabase={2}mdb,cn=config
+objectClass: olcConfig
+objectClass: olcOverlayConfig
+objectClass: olcSyncProvConfig
+olcOverlay: {0}syncprov
+olcSpCheckpoint: 100 10
+olcSpNoPresent: TRUE
+olcSpReloadHint: TRUE

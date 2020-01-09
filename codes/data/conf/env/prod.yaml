@@ -1,0 +1,69 @@
+
+organization:
+  dn: dc=example,dc=com
+  dc: example
+  o: Example Company
+
+organizational_roles:
+  - manager:
+    cn: Manager
+
+# - https://ldapwiki.com/wiki/LDIF%20Examples%20Of%20NIS%20Migrated%20Entries
+organizational_units:
+  - People
+  - Group
+  - Hosts
+  - Networks
+  - Policies
+
+# Note that at least one member should exist in members
+groups:
+  - cn: SE
+    objectclass: groupOfNames
+    parent_ou: ou=Group
+    gid: 2000
+    members: 
+      - cn=Manager
+  - cn: DBA
+    objectclass: groupOfNames
+    parent_ou: ou=Group
+    gid: 2001
+    members: 
+      - cn=Manager
+  - cn: Developer
+    objectclass: groupOfNames
+    parent_ou: ou=Group
+    gid: 2002
+    members: 
+      - cn=Manager
+
+organizational_persons:
+  - cn: Replicator
+    objectclasses: 
+      - organizationalPerson
+    parent_ou:
+    password: "replicator@pwd"
+  - cn: Lookup
+    objectclasses: 
+      - organizationalPerson
+    parent_ou:
+    password: "lookup@pwd"
+
+enable_auto_generation: False
+auto_generation_options:
+  num_of_persons: 100
+  start_uid: 3000
+  gids: [ 2000, 2001, 2002 ]
+  password_postfix: "@pwd"
+  objectclasses:
+    - posixAccount
+    - shadowAccount
+    - extensibleObject
+  shadow_max: 60
+  shadow_min: 7
+  shadow_warn: 10
+  shadow_inactive: -1
+  login_shell: /bin/bash
+  parent_ou: ou=People
+  gen_email: True
+  gen_address: True

@@ -1,0 +1,10 @@
+dn: cn=module,cn=config
+objectClass: olcModuleList
+cn: module
+olcModuleLoad: {0}syncprov.la
+olcModuleLoad: {1}pw-sha2.la
+olcModuleLoad: {2}auditlog.la
+olcModuleLoad: {3}accesslog.la
+olcModuleLoad: {4}memberof.la
+olcModuleLoad: {5}refint.la
+olcModuleLoad: {6}ppolicy.la

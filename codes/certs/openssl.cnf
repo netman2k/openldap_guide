@@ -1,0 +1,21 @@
+[req]
+default_bits       = 4096
+distinguished_name = req_distinguished_name
+req_extensions     = req_ext
+
+[ req_distinguished_name ]
+countryName                 = Country Name (2 letter code)
+countryName_default         = KR
+
+localityName                = Locality Name (eg, city)
+localityName_default        = Seoul
+
+organizationName            = Organization Name (eg, company)
+organizationName_default    = Example
+
+commonName                  = Common Name (e.g. server FQDN or YOUR name)
+commonName_default          = localhost
+commonName_max              = 64
+
+[ req_ext ]
+subjectAltName = ${ENV::SAN}
