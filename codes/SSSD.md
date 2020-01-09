@@ -1,6 +1,4 @@
 # OpenLDAP + SSSD integratation on CentOS 7
-<https://tylersguides.com/guides/configure-sssd-for-ldap-on-centos-7/>
-
 ***NSLCD WILL NOT WORK WITH RFC2307BIS***
 
 ## Package Installation
@@ -9,22 +7,9 @@
 ```
 
 ## Configuration
+
 ```bash
 cat <<EOF > /etc/sssd/sssd.conf
-[sssd]
-config_file_version = 2
-services = nss, pam, autofs
-domains = default, example.com
-debug_level = 9
-
-[pam]
-pam_verbosity = 5
-debug_level = 5
-
-[nss]
-filter_users = root,ldap,named,avahi,haldaemon,dbus,radiusd,news,nscd
-debug_level = 5
-
 [domain/example.com]
 id_provider = ldap
 auth_provider = ldap
@@ -37,8 +22,31 @@ ldap_tls_reqcert = never
 # primary and backup ldap servers below [first server and],[second server]
 ldap_default_bind_dn = cn=lookup,dc=example,dc=com
 ldap_default_authtok = lookup@pwd
-cache_credentials = false
-debug_level = 5
+cache_credentials = False
+#debug_level = 5
+
+[sssd]
+config_file_version = 2
+reconnection_retries = 3
+sbus_timeout = 30
+services = nss, pam, autofs
+domains = example.com
+#debug_level = 9
+
+[pam]
+reconnection_retries = 3
+offline_credentials_expiration = 2
+offline_failed_login_attempts = 3
+offline_failed_login_delay = 5
+#pam_verbosity = 5
+#debug_level = 5
+
+[nss]
+filter_groups = root
+filter_users = root,ldap,named,avahi,haldaemon,dbus,radiusd,news,nscd
+#debug_level = 5
+
+[autofs]
 EOF
 ```
 
@@ -46,3 +54,8 @@ EOF
 ```bash
 systemctl start sssd
 ```
+
+## References
+* <https://tylersguides.com/guides/configure-sssd-for-ldap-on-centos-7/>
+* <https://mapr.com/support/s/article/How-to-configure-LDAP-client-by-using-SSSD-for-authentication-on-CentOS?language=en_US>
+
