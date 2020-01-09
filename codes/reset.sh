@@ -38,9 +38,6 @@ cat <<EOF > /etc/openldap/ldap.conf
 # See ldap.conf(5) for details
 # This file should be world readable but not world writable.
 
-BASE   dc=example,dc=com
-URI    ldapi:///
-
 #SIZELIMIT      12
 #TIMELIMIT      15
 #DEREF          never
@@ -49,10 +46,7 @@ TLS_CACERTDIR   /etc/openldap/cacerts
 
 # Turning this off breaks GSSAPI used with krb5 when rdns = false
 SASL_NOCANON    on
-TLS_REQCERT     always
-TLS_CACERT      /etc/openldap/certs/root-ca.pem
-TLS_CERT        /etc/openldap/certs/cert.pem
-TLS_KEY         /etc/openldap/certs/cert.pem
+TLS_REQCERT     never
 EOF
 
 
