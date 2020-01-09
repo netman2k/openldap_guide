@@ -48,6 +48,7 @@ filter_users = root,ldap,named,avahi,haldaemon,dbus,radiusd,news,nscd
 
 [autofs]
 EOF
+chmod 600 /etc/sssd/sssd.conf
 ```
 ## Modify PAM configuration
 
