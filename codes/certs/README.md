@@ -41,7 +41,7 @@ openssl req -new -x509 -days 3650 -sha256 -key root-ca-key.pem -out root-ca.pem 
 
 ```bash
 HOST="ker001.example.com"
-SAN="DNS:kerberos1.example.com,DNS:kerberos.example.com"
+export SAN="DNS:kerberos1.example.com,DNS:kerberos.example.com"
 ```
 > The certificate will have another subject name via SAN environment variable
 > In this case, generated certificate can serve kerberos1.example.com and kerberos.example.com as well
